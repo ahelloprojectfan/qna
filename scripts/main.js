@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let len = qnas.length;
     let randomArr = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 13; i++) {
         randomArr.push(getRandomInt(0, len))
     }
     showSuggestions(randomArr)
