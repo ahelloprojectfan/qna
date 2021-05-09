@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     for (var i = 0; i < qnas.length; i++) {
         if (qnas[i]) {
-            index.add(i, `${qnas[i].name}  ${qnas[i].group} ${qnas[i].date} ${qnas[i].id} ${qnas[i].q} ${qnas[i].a}`);
+            index.add(i, `${qnas[i].n}  ${qnas[i].g} ${qnas[i].d} ${qnas[i].i} ${qnas[i].q} ${qnas[i].a}`);
         } else {
             console.log(qnas[i - 1], i)
         }
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
             results += `
         <tr>
             <td class="idolName">
-            ${qnas[i].name} <br> - <br> ${qnas[i].group} <br> - <br>  ${qnas[i].date} <a href="http://www.hello-online.org/index.php?app=helloapp&amp;CODE=article&amp;topic=${qnas[i].id}">H!O</a> </td>
+            ${qnas[i].n} <br> - <br> ${qnas[i].g} <br> - <br>  ${qnas[i].d} <br> <a href="http://www.hello-online.org/index.php?app=helloapp&amp;CODE=article&amp;topic=${qnas[i].i}" target="_blank" >H!O: ${qnas[i].i}</a> </td>
        
             <td  class="idolQ">${(qnas[i].q)}</td>
             <td class="idolA">${qnas[i].a.join("<br>")}</td>
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (value === "info") {
             index.clear();
             for (var i = 0; i < qnas.length; i++) {
-                index.add(i, `${qnas[i].name}  ${qnas[i].group} ${qnas[i].date} ${qnas[i].id}`);
+                index.add(i, `${qnas[i].n}  ${qnas[i].g} ${qnas[i].d} ${qnas[i].i}`);
             }
 
         } else if (value === "q") {
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (value === "all") {
             index.clear();
             for (var i = 0; i < qnas.length; i++) {
-                index.add(i, `${qnas[i].name}  ${qnas[i].group} ${qnas[i].date} ${qnas[i].id} ${qnas[i].q} ${qnas[i].a}`);
+                index.add(i, `${qnas[i].n}  ${qnas[i].g} ${qnas[i].d} ${qnas[i].i} ${qnas[i].q} ${qnas[i].a}`);
             }
         }
         showSuggestions();
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let idsSet = new Set();
 
         qnas.forEach(element => {
-            idsSet.add(element["id"]);
+            idsSet.add(element["i"]);
         });
         return ([...idsSet].sort((a, b) => a - b));
     }
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let len = qnas.length;
     let randomArr = [];
-    for (let i = 0; i < 13; i++) {
+    for (let i = 0; i < 10; i++) {
         randomArr.push(getRandomInt(0, len))
     }
     showSuggestions(randomArr)
