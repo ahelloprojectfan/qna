@@ -145,6 +145,6 @@ document.addEventListener("DOMContentLoaded", function () {
         randomArr.push(getRandomInt(0, len))
     }
     showSuggestions(randomArr)
-
+    searchInput.focus();
 
 });
