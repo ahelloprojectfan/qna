@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H!P QnAs List</title>
+    <link rel="icon" type="image/png" href="../favicon-32x32.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+    <style>
+        .idolName {
+            width: 30%;
+            font-size: 0.83em;
+        }
+
+        .idolQ {
+            width: 35%;
+        }
+
+        .idolA {
+            width: 35%;
+        }
+
+        .searchPart {
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            text-shadow: 1px 1px rgb(116, 114, 114);
+        }
+
+        .opAll {
+            text-align: center;
+        }
+
+        .mycard {
+            padding-left: 2px;
+        }
+
+        .qopen {
+            color: white;
+        }
+
+        .helloLink {
+            font-size: 0.7em;
+        }
+
+        a,
+        a:hover,
+        a:visited {
+            color: rgb(31, 151, 67);
+        }
+
+        .answerText {
+            color: #dcddde;
+        }
+    </style>
+    <script src="../scripts/10-07.js"></script>
+
+</head>
+
+
+<body class="bg-dark text-light container">
+
+
+    <main class="">
+        <h2 class="text-center title">H!P 2010-2007 QnAs List</h2>
+
+
+
+        <div class="opAll">
+
+
+            <a href="list-recent.html">2021-2020</a>
+            |
+
+            <a href="list-19-17.html">2019-2017</a>
+
+            |
+
+            <a href="list-16-14.html">2016-2014</a>
+
+            |
+
+            <a href="list-13-11.html">2013-2011</a>
+
+            |
+
+            <a href="list-10-07.html">2010-2007</a>
+
+
+        </div>
+        <br><br>
+
+
+        <a href="javascript:prevPage()" class="btn btn-secondary" id="btn_prev">Prev</a>
+        <a href="javascript:nextPage()" class="btn btn-secondary" id="btn_next">Next</a>
+        Page: <span id="page2"></span>
+        <br><br>
+
+
+    </main>
+
+    <div id="listingTable"></div>
+    <a href="javascript:prevPage()" class="btn btn-secondary" id="btn_prev">Prev</a>
+    <a href="javascript:nextPage()" class="btn btn-secondary" id="btn_next">Next</a>
+    Page: <span id="page"></span>
+    <br><br>
+    <script>
+
+
+        ids = function () {
+            let idsSet = new Set();
+
+            qnas.forEach(element => {
+                idsSet.add(element["i"]);
+            });
+            return ([...idsSet].sort((a, b) => a - b));
+        }
+        qnas = qnas.flat();
+        qnas = qnas.sort((a, b) => parseInt(parseInt(b["i"] - a["i"])));
+
+
+
+
+        let idsPage = [];
+        let counter = 0;
+        let groups = 0;
+        while (counter < qnas.length) {
+            if (idsPage.includes(qnas[counter]["i"]) === false) {
+                idsPage.push(qnas[counter]["i"])
+                groups += 1;
+            }
+            counter += 1;
+        }
+        // console.log(idsPage, counter - 2);
+
+        qnaSliceArr = qnas.slice(0, counter - 2);
+
+
+
+        var o = groupBy(qnaSliceArr, 'i');
+        o = Object.entries(o).reverse()
+        // console.log(chunk(o, 5));
+        // console.log(o);
+
+
+        function chunk(array, size) {
+            const chunked_arr = [];
+            for (let i = 0; i < array.length; i++) {
+                const last = chunked_arr[chunked_arr.length - 1];
+                if (!last || last.length === size) {
+                    chunked_arr.push([array[i]]);
+                } else {
+                    last.push(array[i]);
+                }
+            }
+            return chunked_arr;
+        }
+
+
+
+        function groupBy(arr, property) {
+            return arr.reduce(function (memo, x) {
+                if (!memo[x[property]]) { memo[x[property]] = []; }
+                memo[x[property]].push(x);
+                return memo;
+            }, {});
+        }
+
+
+
+
+
+
+
+
+
+        var current_page = 1;
+        var records_per_page = 5;
+
+
+
+        var objJson = o;
+        function prevPage() {
+            if (current_page > 1) {
+                current_page--;
+                changePage(current_page);
+            }
+        }
+
+        function nextPage() {
+            if (current_page < numPages()) {
+                current_page++;
+                changePage(current_page);
+            }
+        }
+
+        function changePage(page) {
+            var btn_next = document.getElementById("btn_next");
+            var btn_prev = document.getElementById("btn_prev");
+            var listing_table = document.getElementById("listingTable");
+            var page_span = document.getElementById("page");
+            var page_span2 = document.getElementById("page2");
+
+            // Validate page
+            if (page < 1) page = 1;
+            if (page > numPages()) page = numPages();
+
+            listing_table.innerHTML = "";
+            let counter = 0;
+            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
+                // console.log(i);
+                //@me
+                // listing_table.innerHTML += ` ${objJson[i][0]} <br> ${objJson[i][1][0].t}   <br> ${objJson[i][1][0].q}  <br>  `;
+                listing_table.innerHTML += `<a class="qopen" data-bs-toggle="collapse" href="#m${counter}" role="button" aria-expanded="false" aria-controls="m${counter}"
+
+   <h4> ${objJson[i][1][0].t} </h4>   <br> <h5> ${objJson[i][1][0].q} </h5> <br> </a> `;
+                let div = document.createElement("div");
+                div.classList.add("row")
+
+                for (answer of objJson[i][1]) {
+                    div.innerHTML +=
+                        ` 
+                    <div class="card bg-dark text-light col-md-6 mycard" >
+                        <div class="card-header">
+                            <b>${answer.n}</b>:<br> <span class="answerText">${answer.a.join("<br>")} </span>
+                        </div>
+    
+                    </div>
+`
+
+                }
+                div.id = `m${counter}`;
+                div.classList.add("collapse")
+
+                listing_table.appendChild(div);
+                counter += 1;
+                listing_table.innerHTML += `<br> <a class="helloLink" target="_blank" href="http://www.hello-online.org/index.php?app=helloapp&CODE=article&topic=${objJson[i][0]}">H!O: ${objJson[i][0]} </a> <br> <hr> <br>`
+            }
+
+            page_span.innerHTML = page + "/" + numPages();
+            page_span2.innerHTML = page + "/" + numPages();
+
+            if (page == 1) {
+                btn_prev.style.visibility = "hidden";
+            } else {
+                btn_prev.style.visibility = "visible";
+            }
+
+            if (page == numPages()) {
+                btn_next.style.visibility = "hidden";
+            } else {
+                btn_next.style.visibility = "visible";
+            }
+        }
+
+        function numPages() {
+            return Math.ceil(objJson.length / records_per_page);
+        }
+
+        window.onload = function () {
+            changePage(1);
+        };
+    </script>
+
+
+
+
+
+
+
+
+<a href="../index.html">H!P QnAs Searcher</a>
+</body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+</html>
