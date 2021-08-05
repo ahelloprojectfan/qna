@@ -147,4 +147,15 @@ document.addEventListener("DOMContentLoaded", function () {
     showSuggestions(randomArr)
     searchInput.focus();
 
+
+
+    let urlParams = new URLSearchParams(window.location.search);
+    let urlSearch = urlParams.get('search');
+
+    if (urlSearch !== null && urlSearch !== undefined ) {
+        if(urlSearch.length > 0){
+            searchInput.value =  urlSearch;
+            showSuggestions();
+        }
+    }
 });
