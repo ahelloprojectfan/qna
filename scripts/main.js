@@ -1,8 +1,21 @@
 let ids;
 
 document.addEventListener("DOMContentLoaded", function () {
-  
-    const maxAnswers = 30;
+    let urlParams = new URLSearchParams(window.location.search);
+    let urlSearch = urlParams.get('search');
+    let urlN = urlParams.get('n');
+ 
+
+    let maxAnswers = 30;
+    let numRandomQnAs = 20;
+    if (urlN !== null && urlN !== undefined){
+        if (!isNaN(urlN)) {
+            maxAnswers = parseInt(urlN);
+            numRandomQnAs = parseInt(urlN);
+        }
+    }
+    
+
 
     var index = new FlexSearch({
 
@@ -139,7 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let len = qnas.length;
-    let numRandomQnAs = 20;
     let randomArr = [];
     for (let i = 0; i < numRandomQnAs; i++) {
         randomArr.push(getRandomInt(0, len))
@@ -149,12 +161,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    let urlParams = new URLSearchParams(window.location.search);
-    let urlSearch = urlParams.get('search');
 
-    if (urlSearch !== null && urlSearch !== undefined ) {
-        if(urlSearch.length > 0){
-            searchInput.value =  urlSearch;
+
+    if (urlSearch !== null && urlSearch !== undefined) {
+        if (urlSearch.length > 0) {
+            searchInput.value = urlSearch;
             showSuggestions();
         }
     }
